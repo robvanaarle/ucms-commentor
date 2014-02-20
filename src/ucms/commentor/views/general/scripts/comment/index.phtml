@@ -1,0 +1,53 @@
+<?php if ($this->commentConfig($this->commentModelName, 'comments_enabled')): ?>
+<br /><br />
+<?php echo $this->comments['total_comment_count'] ?> comment(s) in total.<br />
+
+<?php 
+  echo $this->widget('Paginator', array(
+  'pageKey' => 'comment_page',
+  'countKey' => 'comment_count',
+  'countLocked' => $this->commentConfig($this->commentModelName, 'comments_per_page_locked'),
+  'totalCount' => $this->comments['total_comment_count'],
+  'defaultCount' => $this->commentConfig($this->commentModelName, 'comments_per_page')
+)) ?>
+
+<?php $lastCommentIndex = count($this->comments)-1 ?>
+<?php foreach ($this->comments as $index => $comment): ?>
+<?php
+  if ($comment['commentor']['username'] === null) {
+  	$comment['commentor']['username'] = 'unknown';
+  }
+?>
+
+
+<a name="comment<?php echo $comment['id']?>"></a>
+<?php if ($index == $lastCommentIndex): ?><a name="lastcomment"></a><?php endif ?>
+<table border="1">
+  <tr>
+    <td>
+      [<?php echo $comment['id']?>] Comment by <?php echo $this->escape($comment['commentor']['username']) ?> 
+      @ <?php echo $this->locale()->getFormatter()->formatDateTime($comment['datetime'], 'shortest')?>
+      (ip: <?php echo $comment['ip'] ?>)
+    </td>
+  </tr>
+  <tr>
+    <td><?php echo $this->escape($comment['comment']) ?></td>
+  </tr>
+  <tr>
+    <td>
+      <?php if ($this->authorizer()->isAllowed("{$this->commentModelName}.update", array('user_id' => $this->authorizer()->getUserId(), 'commentor_id' => $comment['commentor_id']))): ?>
+        <a href="<?php echo $this->url(array('controller' => $this->commentModelName, 'action' => 'update', 'id' => $comment['id'], 'returnUri' => $this->url(array(), false, false). '#comment' . $comment['id']))?>">update comment</a>
+      <?php endif ?>
+		  <?php if ($this->authorizer()->isAllowed("{$this->commentModelName}.delete", array('user_id' => $this->authorizer()->getUserId(), 'commentor_id' => $comment['commentor_id']))): ?>
+        <a href="<?php echo $this->url(array('controller' => $this->commentModelName, 'action' => 'delete', 'id' => $comment['id'], 'returnUri' => $this->url(array(), false, false)))?>">delete comment</a>
+		  <?php endif ?>
+    </td>
+  </tr>
+</table><br />
+<?php endforeach ?>
+
+<?php if ($this->authorizer()->isAllowed("{$this->commentModelName}.create")): ?>
+<?php echo $this->partial('comment/create.phtml', array('commentForm' => new \ultimo\form\Form(), 'locale' => $this->comments['locale'], 'commente_id' => $this->comments['commente_id'])) ?>
+<?php endif ?>
+
+<?php endif ?>

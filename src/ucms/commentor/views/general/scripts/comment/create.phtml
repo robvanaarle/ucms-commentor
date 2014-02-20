@@ -1,0 +1,9 @@
+<?php if (!isset($this->returnUri)) {
+	$returnPage = 1;
+	if ($this->commentConfig($this->commentModelName, 'comments_sort_order') === 'ASC') {
+		$returnPage = 'last';
+	}
+	$this->returnUri = $this->url(array('comment_page' => $returnPage), false, false) . '#lastcomment';
+} ?>
+
+<?php echo $this->partial('comment/_modify.phtml', array('action' => 'create')) ?>

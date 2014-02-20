@@ -1,0 +1,24 @@
+<form method="post" action="<?php echo $this->url(array('action' => $this->action, 'controller' => $this->commentModelName))?>">
+  <?php if ($this->action == 'update'): ?>
+  <input type="hidden" name="id" value="<?php echo $this->id ?>" />
+  <?php elseif ($this->action == 'create'): ?>
+  <input type="hidden" name="locale" value="<?php echo $this->locale?>" />
+  <input type="hidden" name="commente_id" value="<?php echo $this->commente_id?>" />
+  <?php endif ?>
+  
+  <input type="hidden" name="returnUri" value="<?php echo $this->escapeUrl($this->returnUri) ?>" />
+
+  <dl>
+    <dt><label for="comment">Comment</label></dt>
+    <dd>
+      <?php echo $this->error($this->commentForm, 'comment')?>
+      <textarea name="comment[comment]" id="comment"><?php echo $this->escape($this->commentForm['comment'])?></textarea>
+    </dd>
+  </dl>
+  
+  <dl>
+    <dd>
+      <input type="submit" value="<?php echo $this->action?>" />
+    </dd>
+  </dl>
+</form>

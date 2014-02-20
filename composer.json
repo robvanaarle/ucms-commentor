@@ -1,0 +1,29 @@
+{
+    "name": "robvanaarle/ucms-commentor",
+    "description": "Partial module to enrich a model with comments for Ultimo MVC",
+    "type": "library",
+    "keywords": [
+        "comment",
+        "UltimoMVC"
+    ],
+    "license": "BSD-3-Clause",
+    "authors": [
+	  		{
+	    	  "name": "Rob van Aarle"
+	  		}
+	  ],
+    "require": {
+        "robvanaarle/ultimo-config-mvc": "dev-master",
+        "robvanaarle/ultimo-orm-mvc": "dev-master",
+        "robvanaarle/ultimo-form-mvc": "dev-master",
+        "robvanaarle/ultimo-phptpl-mvc": "dev-master",
+        "robvanaarle/ultimo-translate-mvc": "dev-master",
+        "robvanaarle/ultimo-validation": "dev-master"
+    },
+    "autoload": {
+    		"psr-4": {
+       			"ucms\\": "src/ucms/"
+    		}
+  }
+}
+

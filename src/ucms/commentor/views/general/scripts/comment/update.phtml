@@ -1,0 +1,3 @@
+<?php if (!isset($this->returnUri)) { $this->returnUri = $this->url(array(), false, false); } ?>
+
+<?php echo $this->partial('comment/_modify.phtml', array('action' => 'update')) ?>
